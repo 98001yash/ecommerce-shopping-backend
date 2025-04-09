@@ -10,6 +10,9 @@ import com.company.ecommerce.Shopping_Application.repository.ProductRepository;
 import com.company.ecommerce.Shopping_Application.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -77,4 +80,26 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         productRepository.delete(product);
     }
+
+    @Override
+    public Page<ProductResponseDto> searchProducts(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByNameContainingIgnoreCase(keyword, pageable)
+                .map(product -> modelMapper.map(product, ProductResponseDto.class));
+    }
+
+    @Override
+    public Page<ProductResponseDto> filterByPrice(double min, double max, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByPriceBetween(min, max, pageable)
+                .map(product -> modelMapper.map(product, ProductResponseDto.class));
+    }
+
+    @Override
+    public Page<ProductResponseDto> filterByCategory(Long categoryId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findByCategoryId(categoryId, pageable)
+                .map(product -> modelMapper.map(product, ProductResponseDto.class));
+    }
+
 }
