@@ -32,10 +32,12 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         Product product = modelMapper.map(request, Product.class);
+        product.setId(null); // 👈 important line to prevent update attempt
         product.setCategory(category);
 
         return modelMapper.map(productRepository.save(product), ProductResponseDto.class);
     }
+
 
     @Override
     public ProductResponseDto getProductById(Long id) {
