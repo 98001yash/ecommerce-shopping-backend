@@ -1,5 +1,7 @@
 package com.company.ecommerce.Shopping_Application.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +24,7 @@ public class CartItem {
     private int quantity;
 
     @ManyToOne
+    @JsonBackReference
     private Cart cart;
 }
 
