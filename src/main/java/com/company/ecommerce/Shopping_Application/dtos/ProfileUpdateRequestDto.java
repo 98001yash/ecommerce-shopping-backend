@@ -1,15 +1,14 @@
 package com.company.ecommerce.Shopping_Application.dtos;
 
+
+import com.company.ecommerce.Shopping_Application.enums.Gender;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class SignUpRequestDto {
-    private String email;
-    private String password;
+public class ProfileUpdateRequestDto {
     private String name;
-    private String gender;
     private LocalDate dateOfBirth;
+    private Gender gender;
 }
-
